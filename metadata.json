@@ -1,0 +1,6 @@
+{
+  "name": "HubTask",
+  "description": "Gerenciamento de demandas internas, projetos, tarefas, agendas e indicadores.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
