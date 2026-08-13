@@ -13,6 +13,9 @@ import { AlertCircle, CheckCircle2, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const AppLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() =>
+    localStorage.getItem('hubtask_sidebar_collapsed') === 'true'
+  );
   const [isNewDemandModalOpen, setIsNewDemandModalOpen] = useState(false);
   const { createDemand, getAutoAssigneeForCategory } = useDemands();
 
@@ -89,6 +92,14 @@ export const AppLayout: React.FC = () => {
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        isCollapsed={sidebarCollapsed}
+        onToggleCollapsed={() => {
+          setSidebarCollapsed((current) => {
+            const next = !current;
+            localStorage.setItem('hubtask_sidebar_collapsed', String(next));
+            return next;
+          });
+        }}
         onOpenNewDemandModal={() => setIsNewDemandModalOpen(true)}
       />
 
@@ -314,4 +325,3 @@ export const AppLayout: React.FC = () => {
     </div>
   );
 };
-
