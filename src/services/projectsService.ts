@@ -556,7 +556,7 @@ class ProjectsService {
   // --- HELPER CALCULATIONS & FILTERS ---
   public isProjectOverdue(project: Project): boolean {
     if (project.status === 'completed' || project.status === 'cancelled') return false;
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = getBrasiliaDateString();
     return project.endDate < todayStr;
   }
 
@@ -576,7 +576,7 @@ class ProjectsService {
 
   public isTaskOverdue(task: Task): boolean {
     if (task.status === 'done') return false;
-    const todayStr = new Date().toISOString().split('T')[0];
+    const todayStr = getBrasiliaDateString();
     return task.dueDate < todayStr;
   }
 }

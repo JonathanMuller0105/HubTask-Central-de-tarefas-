@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatDate, formatTime } from '../lib/utils';
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import {
   Plus,
@@ -540,7 +541,7 @@ export const Demands: React.FC = () => {
                       </div>
                       <div>
                         <span className="text-[10px] text-slate-400 block font-semibold">Data Desejada</span>
-                        <span className="font-medium text-slate-800 dark:text-slate-200">{demand.dueDate}</span>
+                        <span className="font-medium text-slate-800 dark:text-slate-200">{formatDate(demand.dueDate)}</span>
                       </div>
                     </div>
 
@@ -786,7 +787,7 @@ export const Demands: React.FC = () => {
                     <div key={c.id} className="p-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 space-y-1">
                       <div className="flex items-center justify-between text-[10px] text-slate-500">
                         <span className="font-bold text-slate-800 dark:text-slate-200">{c.author}</span>
-                        <span>{new Date(c.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        <span>{formatTime(c.createdAt)}</span>
                       </div>
                       <p className="text-slate-700 dark:text-slate-300 text-[11px]">{c.text}</p>
                     </div>

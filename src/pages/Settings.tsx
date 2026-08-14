@@ -1,24 +1,55 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTheme } from '../hooks/useTheme';
-import { Sun, Moon, Laptop, User, Bell, Shield, Save, Check } from 'lucide-react';
+import { useWorkspacePreferences } from '../hooks/useWorkspacePreferences';
+import { Sun, Moon, Laptop, User, Save, Check, Camera, Trash2 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { Theme } from '../types';
+import { AccentColor, Theme, VisualIntensity } from '../types';
 
 export const Settings: React.FC = () => {
   const { theme, setTheme } = useTheme();
+  const { accentColor, intensity, profile, setAccentColor, setIntensity, setProfile } = useWorkspacePreferences();
   const [saved, setSaved] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Profile Form State
-  const [name, setName] = useState('Jonathan Müller');
-  const [email, setEmail] = useState('jonathan.muller@grupounico.com');
-  const [department, setDepartment] = useState('Gerência de Projetos');
+  const [name, setName] = useState(profile.name);
+  const [email, setEmail] = useState(profile.email);
+  const [department, setDepartment] = useState(profile.department);
+  const [photo, setPhoto] = useState<string | null>(profile.photo);
 
   const handleSave = () => {
+    setProfile({ name: name.trim() || profile.name, email, department: department.trim(), photo });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
+
+  const handlePhotoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert('Escolha uma imagem de até 2 MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => setPhoto(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  const accents: { value: AccentColor; label: string; className: string }[] = [
+    { value: 'indigo', label: 'Índigo', className: 'bg-indigo-600' },
+    { value: 'blue', label: 'Azul', className: 'bg-blue-600' },
+    { value: 'emerald', label: 'Verde', className: 'bg-emerald-600' },
+    { value: 'rose', label: 'Rosa', className: 'bg-rose-600' },
+    { value: 'amber', label: 'Âmbar', className: 'bg-amber-600' },
+  ];
+
+  const intensities: { value: VisualIntensity; label: string }[] = [
+    { value: 'soft', label: 'Suave' },
+    { value: 'balanced', label: 'Equilibrada' },
+    { value: 'vivid', label: 'Vibrante' },
+  ];
 
   const themeOptions: { value: Theme; label: string; desc: string; icon: React.ReactNode }[] = [
     {
@@ -92,6 +123,55 @@ export const Settings: React.FC = () => {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle>Personalização da área de trabalho</CardTitle>
+          <CardDescription>Escolha a cor de destaque e a intensidade das superfícies do HubTask.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-5">
+          <div>
+            <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-2">Cor de destaque</span>
+            <div className="flex flex-wrap gap-3">
+              {accents.map((accent) => (
+                <button
+                  key={accent.value}
+                  type="button"
+                  onClick={() => setAccentColor(accent.value)}
+                  aria-label={`Usar cor ${accent.label}`}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-xs font-medium transition-all ${
+                    accentColor === accent.value
+                      ? 'border-slate-700 dark:border-slate-200 ring-2 ring-slate-400/30'
+                      : 'border-slate-200 dark:border-slate-700'
+                  }`}
+                >
+                  <span className={`w-4 h-4 rounded-full ${accent.className}`} />
+                  {accent.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-2">Intensidade visual</span>
+            <div className="grid grid-cols-3 gap-2 max-w-md">
+              {intensities.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setIntensity(option.value)}
+                  className={`px-3 py-2 rounded-lg border text-xs font-semibold ${
+                    intensity === option.value
+                      ? 'workspace-accent-surface border-[var(--workspace-accent)] workspace-accent-text'
+                      : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Perfil do Usuário */}
       <Card>
         <CardHeader>
@@ -101,6 +181,27 @@ export const Settings: React.FC = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="flex items-center gap-4 pb-2">
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-slate-100 dark:bg-slate-800 ring-2 ring-slate-200 dark:ring-slate-700 flex items-center justify-center">
+              {photo ? (
+                <img src={photo} alt="Foto de perfil" className="w-full h-full object-cover" />
+              ) : (
+                <User className="w-8 h-8 text-slate-400" />
+              )}
+            </div>
+            <div className="space-y-2">
+              <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
+              <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()} leftIcon={<Camera className="w-4 h-4" />}>
+                Escolher foto
+              </Button>
+              {photo && (
+                <Button variant="ghost" size="sm" onClick={() => setPhoto(null)} className="text-rose-600" leftIcon={<Trash2 className="w-4 h-4" />}>
+                  Remover
+                </Button>
+              )}
+              <p className="text-[10px] text-slate-500 dark:text-slate-400">JPG, PNG ou WebP, até 2 MB.</p>
+            </div>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
               label="Nome Completo"

@@ -34,11 +34,11 @@ import { Progress } from '../components/ui/Progress';
 import { useCalendar } from '../hooks/useCalendar';
 import { useProjects } from '../hooks/useProjects';
 import { CalendarEvent, CalendarEventType } from '../types';
-import { formatDate } from '../lib/utils';
+import { addDaysToDateString, BRAZIL_LOCALE, BRAZIL_TIME_ZONE, formatDate, getBrasiliaDateString } from '../lib/utils';
 
 export const Calendar: React.FC = () => {
   // Selected Date state (Defaults to today YYYY-MM-DD or 2026-08-12)
-  const [selectedDate, setSelectedDate] = useState<string>('2026-08-12');
+  const [selectedDate, setSelectedDate] = useState<string>(() => getBrasiliaDateString());
   const [activeTab, setActiveTab] = useState<'today' | 'week' | 'month' | 'integrations'>('today');
 
   const {
@@ -78,7 +78,7 @@ export const Calendar: React.FC = () => {
   }>({
     title: '',
     description: '',
-    date: '2026-08-12',
+    date: getBrasiliaDateString(),
     startTime: '09:00',
     endTime: '10:00',
     type: 'meeting',
@@ -164,10 +164,7 @@ export const Calendar: React.FC = () => {
 
   // Date Navigation
   const handleNavigateDate = (days: number) => {
-    const current = new Date(selectedDate + 'T12:00:00');
-    current.setDate(current.getDate() + days);
-    const newDateStr = current.toISOString().split('T')[0];
-    setSelectedDate(newDateStr);
+    setSelectedDate(addDaysToDateString(selectedDate, days));
   };
 
   // Filter tasks by selected project in form
@@ -215,7 +212,8 @@ export const Calendar: React.FC = () => {
   };
 
   // Helper to format date header title (e.g. "12 de Agosto de 2026")
-  const formattedDateTitle = new Date(selectedDate + 'T12:00:00').toLocaleDateString('pt-BR', {
+  const formattedDateTitle = new Date(selectedDate + 'T12:00:00Z').toLocaleDateString(BRAZIL_LOCALE, {
+    timeZone: BRAZIL_TIME_ZONE,
     day: 'numeric',
     month: 'long',
     year: 'numeric',
@@ -223,16 +221,13 @@ export const Calendar: React.FC = () => {
 
   // Calculate days for Week view
   const getWeekDays = (baseDateStr: string) => {
-    const base = new Date(baseDateStr + 'T12:00:00');
-    const dayOfWeek = base.getDay(); // 0 is Sunday
-    const sunday = new Date(base);
-    sunday.setDate(base.getDate() - dayOfWeek);
+    const base = new Date(baseDateStr + 'T12:00:00Z');
+    const dayOfWeek = base.getUTCDay(); // 0 is Sunday
+    const sundayStr = addDaysToDateString(baseDateStr, -dayOfWeek);
 
     const days = [];
     for (let i = 0; i < 7; i++) {
-      const d = new Date(sunday);
-      d.setDate(sunday.getDate() + i);
-      days.push(d.toISOString().split('T')[0]);
+      days.push(addDaysToDateString(sundayStr, i));
     }
     return days;
   };
@@ -241,9 +236,8 @@ export const Calendar: React.FC = () => {
 
   // Calculate days for Month view (e.g., August 2026)
   const getMonthGrid = (baseDateStr: string) => {
-    const base = new Date(baseDateStr + 'T12:00:00');
-    const year = base.getFullYear();
-    const month = base.getMonth();
+    const [year, monthNumber] = baseDateStr.split('-').map(Number);
+    const month = monthNumber - 1;
 
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -481,7 +475,7 @@ export const Calendar: React.FC = () => {
             onChange={(e) => setSelectedDate(e.target.value)}
             className="w-36 text-xs py-1.5"
           />
-          <Button variant="outline" size="sm" onClick={() => setSelectedDate('2026-08-12')}>
+          <Button variant="outline" size="sm" onClick={() => setSelectedDate(getBrasiliaDateString())}>
             Hoje
           </Button>
           <button
@@ -697,8 +691,8 @@ export const Calendar: React.FC = () => {
               const dayWorkload = getWorkloadForDate(dayStr);
               const dayEvents = events.filter((e) => e.date === dayStr);
               const isSelected = dayStr === selectedDate;
-              const d = new Date(dayStr + 'T12:00:00');
-              const dayName = d.toLocaleDateString('pt-BR', { weekday: 'short' });
+              const d = new Date(dayStr + 'T12:00:00Z');
+              const dayName = d.toLocaleDateString(BRAZIL_LOCALE, { timeZone: BRAZIL_TIME_ZONE, weekday: 'short' });
 
               return (
                 <div

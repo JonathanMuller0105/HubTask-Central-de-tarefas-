@@ -1,5 +1,6 @@
 import { Demand, DemandStatus, Priority, AssignmentRule, DemandComment, Project } from '../types';
 import { projectsService } from './projectsService';
+import { getBrasiliaDateString } from '../lib/utils';
 
 const DEMANDS_STORAGE_KEY = 'hubtask_demands';
 const RULES_STORAGE_KEY = 'hubtask_assignment_rules';
@@ -432,9 +433,9 @@ class DemandsService {
       priority: projectPriority,
       assignee: demand.assignee || 'Carlos Eduardo',
       manager: managerName,
-      startDate: new Date().toISOString().split('T')[0],
-      endDate: demand.dueDate || demand.desired_date || new Date().toISOString().split('T')[0],
-      baseline: demand.dueDate || demand.desired_date || new Date().toISOString().split('T')[0],
+      startDate: getBrasiliaDateString(),
+      endDate: demand.dueDate || demand.desired_date || getBrasiliaDateString(),
+      baseline: demand.dueDate || demand.desired_date || getBrasiliaDateString(),
       progress: 0,
       membersCount: 3,
     });

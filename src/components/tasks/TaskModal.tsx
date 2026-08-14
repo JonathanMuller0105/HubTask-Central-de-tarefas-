@@ -4,6 +4,7 @@ import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
+import { addDaysToDateString, getBrasiliaDateString } from '../../lib/utils';
 
 interface TaskModalProps {
   isOpen: boolean;
@@ -30,8 +31,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
     priority: 'medium' as TaskPriority,
     assignee: 'Carlos Eduardo',
     progress: 0,
-    startDate: new Date().toISOString().split('T')[0],
-    dueDate: new Date(Date.now() + 14 * 24 * 3600 * 1000).toISOString().split('T')[0],
+    startDate: getBrasiliaDateString(),
+    dueDate: addDaysToDateString(getBrasiliaDateString(), 14),
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -46,8 +47,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         priority: initialData.priority || 'medium',
         assignee: initialData.assignee || 'Carlos Eduardo',
         progress: initialData.progress || 0,
-        startDate: initialData.startDate || new Date().toISOString().split('T')[0],
-        dueDate: initialData.dueDate || new Date(Date.now() + 14 * 24 * 3600 * 1000).toISOString().split('T')[0],
+        startDate: initialData.startDate || getBrasiliaDateString(),
+        dueDate: initialData.dueDate || addDaysToDateString(getBrasiliaDateString(), 14),
       });
     } else {
       setFormData({
@@ -58,8 +59,8 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         priority: 'medium',
         assignee: 'Carlos Eduardo',
         progress: 0,
-        startDate: new Date().toISOString().split('T')[0],
-        dueDate: new Date(Date.now() + 14 * 24 * 3600 * 1000).toISOString().split('T')[0],
+        startDate: getBrasiliaDateString(),
+        dueDate: addDaysToDateString(getBrasiliaDateString(), 14),
       });
     }
     setErrors({});

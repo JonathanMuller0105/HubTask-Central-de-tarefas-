@@ -33,7 +33,7 @@ export const UserAvatar: React.FC = () => {
         className="flex items-center gap-2.5 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none cursor-pointer"
       >
         <div className="relative">
-          <div className="w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold text-xs flex items-center justify-center ring-2 ring-indigo-500/20 overflow-hidden">
+          <div className="w-8 h-8 rounded-full workspace-accent-bg text-white font-semibold text-xs flex items-center justify-center ring-2 ring-slate-400/20 overflow-hidden">
             {profile.photo ? (
               <img src={profile.photo} alt="" className="w-full h-full object-cover" />
             ) : (

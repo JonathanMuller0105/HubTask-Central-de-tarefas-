@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { formatDate } from '../lib/utils';
 import { useNavigate } from 'react-router-dom';
 import {
   Folder,
@@ -296,7 +297,7 @@ export const Projects: React.FC = () => {
                     <div>
                       <span className="block text-[10px] text-slate-400">Prazo</span>
                       <strong className={overdue ? 'text-rose-600 dark:text-rose-400' : 'text-slate-800 dark:text-slate-200'}>
-                        {project.endDate}
+                        {formatDate(project.endDate)}
                       </strong>
                     </div>
                   </div>
@@ -400,7 +401,7 @@ export const Projects: React.FC = () => {
 
                       <td className="px-4 py-3">
                         <span className={overdue ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-700 dark:text-slate-300'}>
-                          {project.endDate}
+                          {formatDate(project.endDate)}
                         </span>
                       </td>
 

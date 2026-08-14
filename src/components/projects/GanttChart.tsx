@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { formatDate, getBrasiliaDateString } from '../../lib/utils';
 import {
   Calendar as CalendarIcon,
   Clock,
@@ -55,7 +56,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
   }, [tasks, dependencies]);
 
   // 2. Timeline date bounds
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = getBrasiliaDateString();
 
   const timelineDates = useMemo(() => {
     if (tasks.length === 0) return [];
@@ -205,7 +206,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
             </span>
           </div>
           <p className="text-[11px] text-slate-500 dark:text-slate-400">
-            Início: {project.startDate} | Fim: {project.endDate}
+            Início: {formatDate(project.startDate)} | Fim: {formatDate(project.endDate)}
           </p>
         </Card>
 
@@ -236,7 +237,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
             )}
           </div>
           <p className="text-[11px] text-slate-500 dark:text-slate-400">
-            Comparação com Baseline ({project.baseline || project.endDate})
+            Comparação com Baseline ({formatDate(project.baseline || project.endDate)})
           </p>
         </Card>
 
@@ -500,7 +501,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
                     <div
                       style={{ left: `${baseBarLeft}px`, width: `${baseBarWidth}px` }}
                       className="absolute bottom-1.5 h-2 rounded bg-slate-300/80 dark:bg-slate-700/80 border border-dashed border-slate-500/70 z-0"
-                      title={`Baseline: ${t.baselineStart || t.startDate} até ${t.baselineDue || t.dueDate}`}
+                      title={`Baseline: ${formatDate(t.baselineStart || t.startDate)} até ${formatDate(t.baselineDue || t.dueDate)}`}
                     />
 
                     {/* Current Task Bar */}

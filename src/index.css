@@ -2,3 +2,13 @@
 
 /* Allow the theme provider to control dark mode through the <html> class. */
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --workspace-accent: #4f46e5;
+  --workspace-accent-soft: 14%;
+}
+
+.workspace-accent-text { color: var(--workspace-accent); }
+.workspace-accent-bg { background-color: var(--workspace-accent); }
+.workspace-accent-surface { background-color: color-mix(in srgb, var(--workspace-accent) var(--workspace-accent-soft), white); }
+.dark .workspace-accent-surface { background-color: color-mix(in srgb, var(--workspace-accent) var(--workspace-accent-soft), #0f172a); }

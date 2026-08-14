@@ -1,4 +1,5 @@
 import React from 'react';
+import { formatDate, getBrasiliaDateString } from '../lib/utils';
 import { useOutletContext, Link, useNavigate } from 'react-router-dom';
 import {
   FolderKanban,
@@ -42,7 +43,7 @@ export const Dashboard: React.FC = () => {
   } = useProjects();
   const { metrics } = useDemands();
 
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = getBrasiliaDateString();
 
   // 1. CARDS CALCULATIONS
   // Active Projects
@@ -326,7 +327,7 @@ export const Dashboard: React.FC = () => {
                   </div>
 
                   <div className="flex items-center justify-between text-[10px] text-slate-500 pt-1 border-t border-slate-200/50 dark:border-slate-700/50">
-                    <span>Prazo: <strong className={overdue ? 'text-rose-600' : ''}>{p.endDate}</strong></span>
+                    <span>Prazo: <strong className={overdue ? 'text-rose-600' : ''}>{formatDate(p.endDate)}</strong></span>
                     <span className="font-semibold">{p.assignee}</span>
                   </div>
                 </div>
@@ -377,7 +378,7 @@ export const Dashboard: React.FC = () => {
                   </div>
 
                   <div className="text-right shrink-0">
-                    <span className="text-xs font-bold text-sky-600 dark:text-sky-400 block">{item.dueDate}</span>
+                    <span className="text-xs font-bold text-sky-600 dark:text-sky-400 block">{formatDate(item.dueDate)}</span>
                     <span className="text-[10px] text-slate-400">Prazo final</span>
                   </div>
                 </div>
@@ -420,7 +421,7 @@ export const Dashboard: React.FC = () => {
                         {t.code}
                       </span>
                       <span className="text-[10px] text-rose-700 dark:text-rose-300 font-semibold">
-                        Venceu em: {t.dueDate}
+                        Venceu em: {formatDate(t.dueDate)}
                       </span>
                     </div>
                     <p className="font-bold text-slate-900 dark:text-slate-100 truncate">{t.title}</p>

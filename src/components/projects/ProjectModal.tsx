@@ -4,6 +4,7 @@ import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
+import { addDaysToDateString, getBrasiliaDateString } from '../../lib/utils';
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -26,9 +27,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
     priority: 'medium' as ProjectPriority,
     assignee: 'Carlos Eduardo',
     manager: 'Jonathan Müller',
-    startDate: new Date().toISOString().split('T')[0],
-    endDate: new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString().split('T')[0],
-    baseline: new Date(Date.now() + 25 * 24 * 3600 * 1000).toISOString().split('T')[0],
+    startDate: getBrasiliaDateString(),
+    endDate: addDaysToDateString(getBrasiliaDateString(), 30),
+    baseline: addDaysToDateString(getBrasiliaDateString(), 25),
     progress: 0,
     membersCount: 4,
     isAtRisk: false,
@@ -62,9 +63,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
         priority: 'medium',
         assignee: 'Carlos Eduardo',
         manager: 'Jonathan Müller',
-        startDate: new Date().toISOString().split('T')[0],
-        endDate: new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString().split('T')[0],
-        baseline: new Date(Date.now() + 25 * 24 * 3600 * 1000).toISOString().split('T')[0],
+        startDate: getBrasiliaDateString(),
+        endDate: addDaysToDateString(getBrasiliaDateString(), 30),
+        baseline: addDaysToDateString(getBrasiliaDateString(), 25),
         progress: 0,
         membersCount: 4,
         isAtRisk: false,

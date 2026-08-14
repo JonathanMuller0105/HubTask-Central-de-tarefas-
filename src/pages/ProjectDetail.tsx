@@ -335,8 +335,8 @@ export const ProjectDetail: React.FC = () => {
                     </p>
                     <p className="opacity-90">
                       {isOverdue
-                        ? `O prazo previsto de entrega (${project.endDate}) expirou. Ajuste as metas ou adicione mais recursos.`
-                        : `O ritmo de conclusão das tarefas está abaixo da média esperada para a data limite de ${project.endDate}.`}
+                        ? `O prazo previsto de entrega (${formatDate(project.endDate)}) expirou. Ajuste as metas ou adicione mais recursos.`
+                        : `O ritmo de conclusão das tarefas está abaixo da média esperada para a data limite de ${formatDate(project.endDate)}.`}
                     </p>
                   </div>
                 </div>
@@ -430,7 +430,7 @@ export const ProjectDetail: React.FC = () => {
                     <Calendar className="w-3.5 h-3.5" /> Data Inicial:
                   </span>
                   <span className="font-semibold text-slate-900 dark:text-slate-100">
-                    {project.startDate}
+                    {formatDate(project.startDate)}
                   </span>
                 </div>
 
@@ -443,7 +443,7 @@ export const ProjectDetail: React.FC = () => {
                       isOverdue ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-900 dark:text-slate-100'
                     }`}
                   >
-                    {project.endDate}
+                    {formatDate(project.endDate)}
                   </span>
                 </div>
 
@@ -452,7 +452,7 @@ export const ProjectDetail: React.FC = () => {
                     <FileText className="w-3.5 h-3.5" /> Baseline Oficial:
                   </span>
                   <span className="font-semibold text-slate-900 dark:text-slate-100">
-                    {project.baseline || project.endDate}
+                    {formatDate(project.baseline || project.endDate)}
                   </span>
                 </div>
               </div>
@@ -571,7 +571,7 @@ export const ProjectDetail: React.FC = () => {
 
                         <div className="flex items-center gap-4 text-[11px] text-slate-500 dark:text-slate-400 pt-1 flex-wrap">
                           <span>Responsável: <strong className="text-slate-700 dark:text-slate-300">{t.assignee}</strong></span>
-                          <span>Prazo: <strong className={taskOverdue ? 'text-rose-600 dark:text-rose-400' : 'text-slate-700 dark:text-slate-300'}>{t.dueDate}</strong></span>
+                          <span>Prazo: <strong className={taskOverdue ? 'text-rose-600 dark:text-rose-400' : 'text-slate-700 dark:text-slate-300'}>{formatDate(t.dueDate)}</strong></span>
                         </div>
                       </div>
 
