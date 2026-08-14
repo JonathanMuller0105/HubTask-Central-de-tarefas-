@@ -87,14 +87,16 @@ serve(async (req) => {
 ## 💻 Desenvolvimento Local
 
 ```bash
-# 1. Instalar dependências
-npm install
+# 1. Instalar dependências com o lockfile oficial
+bun install --frozen-lockfile
 
 # 2. Executar servidor de desenvolvimento
-npm run dev
+bun run dev
 
-# 3. Validar TypeScript e Build
-npm run build
+# 3. Validar testes, TypeScript e build
+bun test
+bun run lint
+bun run build
 ```
 
 ---
