@@ -17,7 +17,9 @@ import {
   Trash2,
   Filter,
   Search,
-  ExternalLink,
+  Eye,
+  LockKeyhole,
+  Upload,
   ChevronRight,
   TrendingUp,
   AlertCircle,
@@ -28,14 +30,20 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Progress } from '../components/ui/Progress';
 import { EmptyState } from '../components/ui/EmptyState';
+import { Input } from '../components/ui/Input';
+import { Modal } from '../components/ui/Modal';
 import { ProjectModal } from '../components/projects/ProjectModal';
 import { TaskModal } from '../components/tasks/TaskModal';
 import { GanttChart } from '../components/projects/GanttChart';
-import { Task, TaskStatus, TaskPriority, ProjectStatus } from '../types';
+import { ProjectFile, Task, TaskStatus, TaskPriority, ProjectStatus } from '../types';
+import { formatDate } from '../lib/utils';
+import { useWorkspacePreferences } from '../hooks/useWorkspacePreferences';
 
 export const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { profile } = useWorkspacePreferences();
+  const currentUploader = profile.name;
   const {
     projects,
     getProjectById,
@@ -74,8 +82,10 @@ export const ProjectDetail: React.FC = () => {
   const [taskPriorityFilter, setTaskPriorityFilter] = useState<string>('all');
 
   // New File modal/input
-  const [newFileName, setNewFileName] = useState('');
+  const [selectedUpload, setSelectedUpload] = useState<File | null>(null);
   const [isAddingFile, setIsAddingFile] = useState(false);
+  const [fileSearch, setFileSearch] = useState('');
+  const [previewFile, setPreviewFile] = useState<ProjectFile | null>(null);
 
   if (!project) {
     return (
@@ -155,12 +165,35 @@ export const ProjectDetail: React.FC = () => {
   const blockedTasksCount = projectTasks.filter((t) => t.status === 'blocked').length;
   const overdueTasksCount = projectTasks.filter((t) => isTaskOverdue(t)).length;
 
-  const handleAddFile = (e: React.FormEvent) => {
+  const filteredFiles = projectFiles.filter((file) => {
+    const query = fileSearch.trim().toLocaleLowerCase('pt-BR');
+    return !query || [file.name, file.type, file.uploadedBy].some((value) => value.toLocaleLowerCase('pt-BR').includes(query));
+  });
+
+  const handleAddFile = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newFileName.trim()) return;
-    addFile(project.id, newFileName.trim(), project.assignee || 'Usuário Atual');
-    setNewFileName('');
+    if (!selectedUpload) return;
+    if (selectedUpload.size > 2 * 1024 * 1024) {
+      alert('Para visualização local, escolha um arquivo de até 2 MB.');
+      return;
+    }
+    const contentUrl = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(selectedUpload);
+    });
+    const size = selectedUpload.size < 1024 * 1024
+      ? `${Math.max(1, Math.round(selectedUpload.size / 1024))} KB`
+      : `${(selectedUpload.size / 1024 / 1024).toFixed(1)} MB`;
+    addFile(project.id, selectedUpload.name, currentUploader, contentUrl, selectedUpload.type, size);
+    setSelectedUpload(null);
     setIsAddingFile(false);
+  };
+
+  const handleDeleteFile = (file: ProjectFile) => {
+    if (file.uploadedBy.trim().toLocaleLowerCase('pt-BR') !== currentUploader.trim().toLocaleLowerCase('pt-BR')) return;
+    if (confirm(`Excluir o arquivo "${file.name}"?`)) deleteFile(file.id, currentUploader);
   };
 
   const handleDeleteProject = () => {
@@ -611,7 +644,7 @@ export const ProjectDetail: React.FC = () => {
       {/* ABA 4: ARQUIVOS */}
       {activeTab === 'files' && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
             <div>
               <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">
                 Documentos e Anexos do Projeto
@@ -621,28 +654,31 @@ export const ProjectDetail: React.FC = () => {
               </p>
             </div>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsAddingFile(!isAddingFile)}
-              className="flex items-center gap-1.5"
-            >
-              <Plus className="w-4 h-4" /> Anexar Arquivo
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+              <div className="w-full sm:w-64">
+                <Input
+                  value={fileSearch}
+                  onChange={(e) => setFileSearch(e.target.value)}
+                  placeholder="Buscar arquivo, tipo ou autor..."
+                  leftIcon={<Search className="w-4 h-4" />}
+                />
+              </div>
+              <Button variant="outline" size="sm" onClick={() => setIsAddingFile(!isAddingFile)} className="flex items-center gap-1.5">
+                <Plus className="w-4 h-4" /> Anexar Arquivo
+              </Button>
+            </div>
           </div>
 
           {isAddingFile && (
             <Card className="p-4 bg-slate-50 dark:bg-slate-800/50">
-              <form onSubmit={handleAddFile} className="flex gap-2 items-center">
+              <form onSubmit={handleAddFile} className="flex flex-col sm:flex-row gap-2 sm:items-center">
                 <input
-                  type="text"
-                  placeholder="Nome do arquivo (ex: Relatorio_Final.pdf)"
-                  value={newFileName}
-                  onChange={(e) => setNewFileName(e.target.value)}
+                  type="file"
+                  onChange={(e) => setSelectedUpload(e.target.files?.[0] || null)}
                   className="flex-1 px-3 py-1.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-                <Button type="submit" variant="primary" size="sm">
-                  Salvar
+                <Button type="submit" variant="primary" size="sm" disabled={!selectedUpload} leftIcon={<Upload className="w-4 h-4" />}>
+                  Anexar
                 </Button>
                 <Button type="button" variant="ghost" size="sm" onClick={() => setIsAddingFile(false)}>
                   Cancelar
@@ -658,10 +694,14 @@ export const ProjectDetail: React.FC = () => {
               actionText="Anexar Primeiro Arquivo"
               onAction={() => setIsAddingFile(true)}
             />
+          ) : filteredFiles.length === 0 ? (
+            <EmptyState title="Nenhum arquivo encontrado" description={`Não encontramos resultados para “${fileSearch}”.`} />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {projectFiles.map((file) => (
-                <Card key={file.id} className="p-4 flex items-center justify-between">
+              {filteredFiles.map((file) => {
+                const canDelete = file.uploadedBy.trim().toLocaleLowerCase('pt-BR') === currentUploader.trim().toLocaleLowerCase('pt-BR');
+                return (
+                  <Card key={file.id} className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-lg bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400">
                       <FileText className="w-5 h-5" />
@@ -671,34 +711,68 @@ export const ProjectDetail: React.FC = () => {
                         {file.name}
                       </p>
                       <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                        {file.size} • Enviado por {file.uploadedBy} em {file.uploadedAt}
+                        {file.size} • Enviado por {file.uploadedBy} em {formatDate(file.uploadedAt)}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => alert(`Iniciando download simulação de ${file.name}`)}
+                      onClick={() => setPreviewFile(file)}
                       className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors cursor-pointer"
-                      title="Baixar Arquivo"
+                      title="Visualizar arquivo"
                     >
-                      <ExternalLink className="w-4 h-4" />
+                      <Eye className="w-4 h-4" />
                     </button>
 
                     <button
-                      onClick={() => deleteFile(file.id)}
-                      className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
-                      title="Excluir Arquivo"
+                      onClick={() => handleDeleteFile(file)}
+                      disabled={!canDelete}
+                      className={`p-1.5 rounded-lg transition-colors ${canDelete ? 'text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 cursor-pointer' : 'text-slate-300 dark:text-slate-700 cursor-not-allowed'}`}
+                      title={canDelete ? 'Excluir arquivo' : `Somente ${file.uploadedBy} pode excluir este arquivo`}
                     >
-                      <Trash2 className="w-4 h-4" />
+                      {canDelete ? <Trash2 className="w-4 h-4" /> : <LockKeyhole className="w-4 h-4" />}
                     </button>
                   </div>
-                </Card>
-              ))}
+                  </Card>
+                );
+              })}
             </div>
           )}
         </div>
       )}
+
+      <Modal
+        isOpen={Boolean(previewFile)}
+        onClose={() => setPreviewFile(null)}
+        title={previewFile?.name}
+        description={previewFile ? `${previewFile.size} • Enviado por ${previewFile.uploadedBy} em ${formatDate(previewFile.uploadedAt)}` : undefined}
+        maxWidth="2xl"
+      >
+        {previewFile && (
+          <div className="min-h-64 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 overflow-hidden flex items-center justify-center">
+            {!previewFile.contentUrl ? (
+              <div className="text-center p-8 max-w-md">
+                <FileText className="w-12 h-12 mx-auto text-slate-400 mb-3" />
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Arquivo vinculado ao projeto</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">Este registro foi criado antes do armazenamento de conteúdo. Os metadados estão disponíveis, mas não existe uma cópia local para pré-visualização.</p>
+              </div>
+            ) : previewFile.mimeType?.startsWith('image/') ? (
+              <img src={previewFile.contentUrl} alt={previewFile.name} className="max-h-[65vh] max-w-full object-contain" />
+            ) : previewFile.mimeType === 'application/pdf' ? (
+              <iframe src={previewFile.contentUrl} title={previewFile.name} className="w-full h-[65vh]" />
+            ) : previewFile.mimeType?.startsWith('text/') ? (
+              <iframe src={previewFile.contentUrl} title={previewFile.name} className="w-full h-[65vh] bg-white" />
+            ) : (
+              <div className="text-center p-8">
+                <FileText className="w-12 h-12 mx-auto text-slate-400 mb-3" />
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Visualização não disponível para este formato.</p>
+                <p className="text-xs text-slate-500 mt-2">O arquivo permanece vinculado e identificado no projeto.</p>
+              </div>
+            )}
+          </div>
+        )}
+      </Modal>
 
       {/* Modal Editar Projeto */}
       <ProjectModal

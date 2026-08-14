@@ -1,5 +1,6 @@
 import { Project, Task, ProjectFile, ProjectStatus, ProjectPriority, TaskStatus, TaskPriority, TaskDependency, DependencyType } from '../types';
 import { detectCycle } from '../utils/cpmCalculator';
+import { getBrasiliaDateString } from '../lib/utils';
 
 const PROJECTS_STORAGE_KEY = 'hubtask_projects';
 const TASKS_STORAGE_KEY = 'hubtask_tasks';
@@ -524,23 +525,29 @@ class ProjectsService {
     return this.files.filter((f) => f.projectId === projectId);
   }
 
-  public addFile(projectId: string, fileName: string, uploadedBy: string): ProjectFile {
+  public addFile(projectId: string, fileName: string, uploadedBy: string, contentUrl?: string, mimeType?: string, size?: string): ProjectFile {
     const ext = fileName.split('.').pop()?.toLowerCase() || 'file';
     const newFile: ProjectFile = {
       id: `f_${Date.now()}`,
       projectId,
       name: fileName,
-      size: `${(Math.random() * 2 + 0.5).toFixed(1)} MB`,
+      size: size || `${(Math.random() * 2 + 0.5).toFixed(1)} MB`,
       uploadedBy,
-      uploadedAt: new Date().toISOString().split('T')[0],
+      uploadedAt: getBrasiliaDateString(),
       type: ext,
+      mimeType,
+      contentUrl,
     };
     this.files.unshift(newFile);
     this.saveFiles();
     return newFile;
   }
 
-  public deleteFile(id: string): boolean {
+  public deleteFile(id: string, requestedBy: string): boolean {
+    const file = this.files.find((item) => item.id === id);
+    if (!file || file.uploadedBy.trim().toLocaleLowerCase('pt-BR') !== requestedBy.trim().toLocaleLowerCase('pt-BR')) {
+      return false;
+    }
     this.files = this.files.filter((f) => f.id !== id);
     this.saveFiles();
     return true;
