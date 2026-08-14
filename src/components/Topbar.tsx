@@ -55,7 +55,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onToggleSidebar }) => {
           <input
             type="text"
             placeholder="Buscar projetos, tarefas... (Ctrl + K)"
-            className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-100/70 dark:bg-slate-800/60 border border-transparent focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 rounded-lg text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none transition-all"
+            className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-100/70 dark:bg-slate-800/60 border border-transparent focus:border-brand-accent focus:bg-white dark:focus:bg-slate-900 rounded-lg text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none transition-all"
           />
         </div>
 
@@ -66,7 +66,7 @@ export const Topbar: React.FC<TopbarProps> = ({ onToggleSidebar }) => {
           title="Notificações"
         >
           <Bell className="w-4 h-4" />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-indigo-600 ring-2 ring-white dark:ring-slate-900" />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-brand-accent ring-2 ring-white dark:ring-slate-900" />
         </button>
 
         {/* Theme Toggle */}
@@ -80,4 +80,3 @@ export const Topbar: React.FC<TopbarProps> = ({ onToggleSidebar }) => {
     </header>
   );
 };
-

@@ -79,7 +79,7 @@ export const Login: React.FC = () => {
                 <input
                   type="checkbox"
                   defaultChecked
-                  className="rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-indigo-500"
+                  className="rounded border-slate-700 bg-slate-900 text-brand-accent focus:ring-brand-accent"
                 />
                 Lembrar neste dispositivo
               </label>

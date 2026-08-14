@@ -227,7 +227,7 @@ export const ProjectDetail: React.FC = () => {
           onClick={() => setActiveTab('overview')}
           className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-t-lg transition-colors border-b-2 cursor-pointer ${
             activeTab === 'overview'
-              ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/30'
+              ? 'border-brand-accent text-brand-accent dark:text-sky-400 bg-sky-50/50 dark:bg-sky-950/30'
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
@@ -238,7 +238,7 @@ export const ProjectDetail: React.FC = () => {
           onClick={() => setActiveTab('tasks')}
           className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-t-lg transition-colors border-b-2 cursor-pointer ${
             activeTab === 'tasks'
-              ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/30'
+              ? 'border-brand-accent text-brand-accent dark:text-sky-400 bg-sky-50/50 dark:bg-sky-950/30'
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
@@ -250,7 +250,7 @@ export const ProjectDetail: React.FC = () => {
           onClick={() => setActiveTab('timeline')}
           className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-t-lg transition-colors border-b-2 cursor-pointer ${
             activeTab === 'timeline'
-              ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/30'
+              ? 'border-brand-accent text-brand-accent dark:text-sky-400 bg-sky-50/50 dark:bg-sky-950/30'
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
@@ -261,7 +261,7 @@ export const ProjectDetail: React.FC = () => {
           onClick={() => setActiveTab('files')}
           className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-t-lg transition-colors border-b-2 cursor-pointer ${
             activeTab === 'files'
-              ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400 bg-indigo-50/50 dark:bg-indigo-950/30'
+              ? 'border-brand-accent text-brand-accent dark:text-sky-400 bg-sky-50/50 dark:bg-sky-950/30'
               : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
           }`}
         >
@@ -441,7 +441,7 @@ export const ProjectDetail: React.FC = () => {
                   placeholder="Buscar tarefas pelo título, código ou responsável..."
                   value={taskSearch}
                   onChange={(e) => setTaskSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-xs bg-slate-100/80 dark:bg-slate-800/80 border border-transparent focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 rounded-lg text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none transition-all"
+                  className="w-full pl-9 pr-3 py-2 text-xs bg-slate-100/80 dark:bg-slate-800/80 border border-transparent focus:border-brand-accent focus:bg-white dark:focus:bg-slate-900 rounded-lg text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none transition-all"
                 />
               </div>
             </div>
@@ -511,7 +511,7 @@ export const ProjectDetail: React.FC = () => {
                           : t.status === 'blocked'
                           ? '#ef4444'
                           : t.status === 'in_progress'
-                          ? '#6366f1'
+                          ? '#f59e0b'
                           : '#94a3b8',
                     }}
                   >
@@ -639,7 +639,7 @@ export const ProjectDetail: React.FC = () => {
                   placeholder="Nome do arquivo (ex: Relatorio_Final.pdf)"
                   value={newFileName}
                   onChange={(e) => setNewFileName(e.target.value)}
-                  className="flex-1 px-3 py-1.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="flex-1 px-3 py-1.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-accent"
                 />
                 <Button type="submit" variant="primary" size="sm">
                   Salvar

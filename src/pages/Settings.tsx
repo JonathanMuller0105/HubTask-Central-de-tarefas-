@@ -68,14 +68,14 @@ export const Settings: React.FC = () => {
                 onClick={() => setTheme(opt.value)}
                 className={`p-4 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                   theme === opt.value
-                    ? 'border-indigo-600 dark:border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/30 ring-2 ring-indigo-500/20'
+                    ? 'border-brand-accent dark:border-brand-accent bg-sky-50/50 dark:bg-sky-950/30 ring-2 ring-brand-accent/20'
                     : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-white dark:bg-slate-900'
                 }`}
               >
                 <div className="flex items-center justify-between w-full mb-3">
                   {opt.icon}
                   {theme === opt.value && (
-                    <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-indigo-400" />
+                    <span className="w-2 h-2 rounded-full bg-brand-accent dark:bg-sky-400" />
                   )}
                 </div>
                 <div>

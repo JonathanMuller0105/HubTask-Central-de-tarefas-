@@ -13,6 +13,7 @@ import { AlertCircle, CheckCircle2, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const AppLayout: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [isNewDemandModalOpen, setIsNewDemandModalOpen] = useState(false);
   const { createDemand, getAutoAssigneeForCategory } = useDemands();
 
@@ -84,11 +85,13 @@ export const AppLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col lg:flex-row transition-colors">
+    <div className="min-h-screen bg-page-light dark:bg-dark-base text-text-primary dark:text-slate-100 flex flex-col lg:flex-row transition-colors">
       {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
+        isCollapsed={sidebarCollapsed}
         onClose={() => setSidebarOpen(false)}
+        onToggleCollapse={() => setSidebarCollapsed((previous) => !previous)}
         onOpenNewDemandModal={() => setIsNewDemandModalOpen(true)}
       />
 
@@ -306,7 +309,7 @@ export const AppLayout: React.FC = () => {
               value={demandDescription}
               onChange={(e) => setDemandDescription(e.target.value)}
               required
-              className="w-full px-3.5 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full px-3.5 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-accent/20 focus:border-brand-accent"
             />
           </div>
         </form>
@@ -314,4 +317,3 @@ export const AppLayout: React.FC = () => {
     </div>
   );
 };
-
