@@ -294,7 +294,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
               onClick={() => setScaleMode('day')}
               className={`px-3 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
                 scaleMode === 'day'
-                  ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  ? 'bg-white dark:bg-slate-900 text-brand-accent dark:text-sky-400 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -304,7 +304,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
               onClick={() => setScaleMode('week')}
               className={`px-3 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
                 scaleMode === 'week'
-                  ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  ? 'bg-white dark:bg-slate-900 text-brand-accent dark:text-sky-400 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -314,7 +314,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
               onClick={() => setScaleMode('month')}
               className={`px-3 py-1 text-xs font-semibold rounded-md transition-all cursor-pointer ${
                 scaleMode === 'month'
-                  ? 'bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  ? 'bg-white dark:bg-slate-900 text-brand-accent dark:text-sky-400 shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
               }`}
             >
@@ -340,7 +340,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
           {/* Legenda visual */}
           <div className="hidden lg:flex items-center gap-3 text-[11px] text-slate-600 dark:text-slate-400 border-r border-slate-200 dark:border-slate-800 pr-3">
             <span className="flex items-center gap-1">
-              <span className="w-3 h-2 rounded-sm bg-indigo-600 inline-block" /> Atual
+              <span className="w-3 h-2 rounded-sm bg-brand-accent inline-block" /> Atual
             </span>
             <span className="flex items-center gap-1">
               <span className="w-3 h-1.5 rounded-sm bg-slate-400 dark:bg-slate-500 border border-dashed border-slate-600 inline-block" /> Baseline
@@ -514,7 +514,7 @@ export const GanttChart: React.FC<GanttChartProps> = ({
                           ? 'bg-rose-600 text-white'
                           : t.status === 'done'
                           ? 'bg-emerald-600 text-white'
-                          : 'bg-indigo-600 text-white'
+                          : 'bg-brand-accent text-white'
                       }`}
                     >
                       {/* Progress filled portion */}

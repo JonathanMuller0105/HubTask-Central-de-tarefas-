@@ -57,7 +57,7 @@ export const ThemeToggle: React.FC = () => {
                 {opt.icon}
                 {opt.label}
               </span>
-              {theme === opt.value && <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />}
+              {theme === opt.value && <Check className="w-3.5 h-3.5 text-brand-accent dark:text-sky-400" />}
             </button>
           ))}
         </div>

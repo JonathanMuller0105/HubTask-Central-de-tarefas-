@@ -18,7 +18,7 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
         className
       )}
     >
-      <Loader2 className="w-8 h-8 animate-spin text-indigo-600 dark:text-indigo-400 mb-3" />
+      <Loader2 className="w-8 h-8 animate-spin text-brand-accent dark:text-sky-400 mb-3" />
       <p className="text-xs font-medium">{message}</p>
     </div>
   );

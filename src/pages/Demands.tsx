@@ -241,7 +241,7 @@ export const Demands: React.FC = () => {
           onClick={() => setActiveTab('all')}
           className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-2 ${
             activeTab === 'all'
-              ? 'bg-indigo-600 text-white shadow-sm'
+              ? 'bg-brand-accent text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
@@ -253,7 +253,7 @@ export const Demands: React.FC = () => {
           onClick={() => setActiveTab('approval_queue')}
           className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-2 ${
             activeTab === 'approval_queue'
-              ? 'bg-indigo-600 text-white shadow-sm'
+              ? 'bg-brand-accent text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
@@ -270,7 +270,7 @@ export const Demands: React.FC = () => {
           onClick={() => setActiveTab('rules')}
           className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-2 ${
             activeTab === 'rules'
-              ? 'bg-indigo-600 text-white shadow-sm'
+              ? 'bg-brand-accent text-white shadow-sm'
               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >

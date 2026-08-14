@@ -30,7 +30,7 @@ export const Progress: React.FC<ProgressProps> = ({
   };
 
   const variants = {
-    primary: 'bg-indigo-600 dark:bg-indigo-500',
+    primary: 'bg-brand-accent dark:bg-brand-accent',
     success: 'bg-emerald-600 dark:bg-emerald-500',
     warning: 'bg-amber-500 dark:bg-amber-400',
     danger: 'bg-rose-600 dark:bg-rose-500',

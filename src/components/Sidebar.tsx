@@ -79,7 +79,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Sidebar Drawer */}
       <aside
         className={cn(
-          'fixed lg:relative top-0 left-0 z-50 h-screen w-64 bg-slate-900 text-slate-100 flex flex-col border-r border-slate-800 transition-[transform,width] duration-200 ease-in-out shrink-0',
+          'fixed lg:relative top-0 left-0 z-50 h-screen w-64 bg-brand-primary dark:bg-dark-base text-slate-100 flex flex-col border-r border-slate-800 transition-[transform,width] duration-200 ease-in-out shrink-0',
           isCollapsed ? 'lg:w-20' : 'lg:w-64',
           isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
@@ -87,7 +87,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* Brand Header */}
         <div className={cn('flex items-center justify-between h-16 px-5 border-b border-slate-800', isCollapsed && 'lg:px-3 lg:justify-center')}>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-sky-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-primary via-brand-secondary to-brand-accent flex items-center justify-center text-white shadow-md shadow-brand-secondary/20">
               <Layers className="w-5 h-5" />
             </div>
             <div className={cn(isCollapsed && 'lg:hidden')}>
@@ -125,7 +125,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               if (onOpenNewDemandModal) onOpenNewDemandModal();
               if (isOpen) onClose();
             }}
-            className={cn('w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs shadow-md shadow-indigo-600/25 transition-all cursor-pointer active:scale-98', isCollapsed && 'lg:px-0')}
+            className={cn('w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-brand-accent hover:bg-sky-600 text-white font-medium text-xs shadow-md shadow-brand-accent/25 transition-all cursor-pointer active:scale-98 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent', isCollapsed && 'lg:px-0')}
             title={isCollapsed ? 'Nova Demanda' : undefined}
           >
             <PlusCircle className="w-4 h-4" />
@@ -152,7 +152,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   'relative flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all group',
                   isCollapsed && 'lg:justify-center lg:px-2',
                   isActive
-                    ? 'bg-indigo-600/15 text-indigo-400 font-semibold border-l-2 border-indigo-500 pl-2.5'
+                    ? 'bg-brand-accent/15 text-sky-400 font-semibold border-l-2 border-brand-accent pl-2.5'
                     : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
                 )
               }
@@ -164,7 +164,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                       className={cn(
                         'w-4 h-4 transition-colors',
                         isActive
-                          ? 'text-indigo-400'
+                          ? 'text-sky-400'
                           : 'text-slate-400 group-hover:text-slate-200'
                       )}
                     />
@@ -176,7 +176,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         'px-2 py-0.5 rounded-full text-[10px] font-bold',
                         isCollapsed && 'lg:absolute lg:ml-7 lg:-mt-6 lg:px-1.5 lg:text-[9px]',
                         isActive
-                          ? 'bg-indigo-500 text-white'
+                          ? 'bg-brand-accent text-white'
                           : 'bg-slate-800 text-slate-400 group-hover:bg-slate-700'
                       )}
                     >

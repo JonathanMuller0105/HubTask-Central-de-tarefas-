@@ -318,7 +318,7 @@ export const Calendar: React.FC = () => {
             <select
               value={workdayHours}
               onChange={(e) => setWorkdayHours(parseInt(e.target.value, 10))}
-              className="bg-slate-900 border border-slate-700 text-white text-xs rounded px-2 py-1 focus:outline-none focus:border-indigo-500 font-mono font-bold"
+              className="bg-slate-900 border border-slate-700 text-white text-xs rounded px-2 py-1 focus:outline-none focus:border-brand-accent font-mono font-bold"
             >
               <option value={4}>4 horas / dia</option>
               <option value={6}>6 horas / dia</option>
@@ -422,7 +422,7 @@ export const Calendar: React.FC = () => {
             onClick={() => setActiveTab('today')}
             className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-2 ${
               activeTab === 'today'
-                ? 'bg-indigo-600 text-white shadow-sm'
+                ? 'bg-brand-accent text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
@@ -434,7 +434,7 @@ export const Calendar: React.FC = () => {
             onClick={() => setActiveTab('week')}
             className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-2 ${
               activeTab === 'week'
-                ? 'bg-indigo-600 text-white shadow-sm'
+                ? 'bg-brand-accent text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
@@ -446,7 +446,7 @@ export const Calendar: React.FC = () => {
             onClick={() => setActiveTab('month')}
             className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-2 ${
               activeTab === 'month'
-                ? 'bg-indigo-600 text-white shadow-sm'
+                ? 'bg-brand-accent text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
@@ -458,7 +458,7 @@ export const Calendar: React.FC = () => {
             onClick={() => setActiveTab('integrations')}
             className={`px-4 py-2 text-xs font-bold rounded-lg transition-colors flex items-center gap-2 ${
               activeTab === 'integrations'
-                ? 'bg-indigo-600 text-white shadow-sm'
+                ? 'bg-brand-accent text-white shadow-sm'
                 : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
@@ -700,7 +700,7 @@ export const Calendar: React.FC = () => {
                   onClick={() => setSelectedDate(dayStr)}
                   className={`p-3 rounded-xl border transition-all cursor-pointer flex flex-col justify-between min-h-[220px] ${
                     isSelected
-                      ? 'border-indigo-600 bg-indigo-50/40 dark:bg-indigo-950/30 ring-2 ring-indigo-500/20'
+                      ? 'border-brand-accent bg-sky-50/40 dark:bg-sky-950/30 ring-2 ring-brand-accent/20'
                       : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300'
                   }`}
                 >
@@ -784,7 +784,7 @@ export const Calendar: React.FC = () => {
                   }}
                   className={`h-20 p-2 rounded-xl border text-left flex flex-col justify-between transition-all cursor-pointer ${
                     isSelected
-                      ? 'border-indigo-600 bg-indigo-50/60 dark:bg-indigo-950/40 ring-2 ring-indigo-500/20'
+                      ? 'border-brand-accent bg-sky-50/60 dark:bg-sky-950/40 ring-2 ring-brand-accent/20'
                       : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300'
                   }`}
                 >
@@ -1099,7 +1099,7 @@ export const Calendar: React.FC = () => {
                 placeholder="Detalhes sobre o objetivo do compromisso ou bloco de foco..."
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 text-xs focus:outline-none focus:ring-2 focus:ring-brand-accent"
               />
             </div>
           </form>
