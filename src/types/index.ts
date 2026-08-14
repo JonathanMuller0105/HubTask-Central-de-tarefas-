@@ -1,5 +1,20 @@
 export type Theme = 'light' | 'dark' | 'system';
 export type UserRole = 'manager' | 'member';
+export type AccentColor = 'indigo' | 'blue' | 'emerald' | 'rose' | 'amber';
+export type VisualIntensity = 'soft' | 'balanced' | 'vivid';
+
+export interface WorkspaceUserProfile {
+  name: string;
+  email: string;
+  department: string;
+  photo: string | null;
+}
+
+export interface WorkspacePreferences {
+  accentColor: AccentColor;
+  intensity: VisualIntensity;
+  profile: WorkspaceUserProfile;
+}
 
 export interface User {
   id: string;
@@ -125,6 +140,8 @@ export interface ProjectFile {
   uploadedBy: string;
   uploadedAt: string;
   type: string;
+  mimeType?: string;
+  contentUrl?: string;
 }
 
 export type CalendarEventType = 'meeting' | 'focus' | 'task' | 'project' | 'other';
@@ -158,6 +175,23 @@ export interface TeamMember {
   avatar: string;
   email: string;
   activeTasksCount: number;
+  workdayHours?: number;
+  functions?: string[];
+  assignedDemandIds?: string[];
+  registrationStatus?: 'invited' | 'pre_registered' | 'active';
+}
+
+/** Optional, sensitive self-declaration data; intentionally separate from TeamMember. */
+export interface PrivateDiversityProfile {
+  memberId: string;
+  socialName?: string;
+  pronouns?: 'ele/dele' | 'ela/dela' | 'elu/delu' | 'outro' | 'nao_informado';
+  customPronouns?: string;
+  genderIdentity?: 'mulher_cis' | 'homem_cis' | 'mulher_trans' | 'homem_trans' | 'travesti' | 'nao_binario' | 'outro' | 'nao_informado';
+  customGenderIdentity?: string;
+  sexualOrientation?: 'heterossexual' | 'homossexual' | 'bissexual' | 'pansexual' | 'assexual' | 'outro' | 'nao_informado';
+  customSexualOrientation?: string;
+  consentedAt?: string;
 }
 
 export interface NotificationItem {
@@ -168,4 +202,3 @@ export interface NotificationItem {
   read: boolean;
   type: 'demand' | 'project' | 'calendar' | 'system';
 }
-

@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './hooks/useTheme';
+import { WorkspacePreferencesProvider } from './hooks/useWorkspacePreferences';
 import { UserRoleProvider } from './context/UserRoleContext';
 import { AppLayout } from './layouts/AppLayout';
 import { Login } from './pages/Login';
@@ -16,7 +17,8 @@ import { NotFound } from './pages/NotFound';
 export default function App() {
   return (
     <ThemeProvider>
-      <UserRoleProvider>
+      <WorkspacePreferencesProvider>
+        <UserRoleProvider>
         <HashRouter>
           <Routes>
             {/* Public Login Route */}
@@ -36,8 +38,8 @@ export default function App() {
             </Route>
           </Routes>
         </HashRouter>
-      </UserRoleProvider>
+        </UserRoleProvider>
+      </WorkspacePreferencesProvider>
     </ThemeProvider>
   );
 }
-

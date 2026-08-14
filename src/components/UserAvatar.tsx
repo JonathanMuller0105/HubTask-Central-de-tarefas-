@@ -1,11 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { User, LogOut, Settings, HelpCircle, Shield } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useWorkspacePreferences } from '../hooks/useWorkspacePreferences';
 
 export const UserAvatar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { profile } = useWorkspacePreferences();
+  const initials = profile.name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase() || 'U';
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -24,17 +33,21 @@ export const UserAvatar: React.FC = () => {
         className="flex items-center gap-2.5 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none cursor-pointer"
       >
         <div className="relative">
-          <div className="w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold text-xs flex items-center justify-center ring-2 ring-indigo-500/20">
-            JM
+          <div className="w-8 h-8 rounded-full bg-indigo-600 text-white font-semibold text-xs flex items-center justify-center ring-2 ring-indigo-500/20 overflow-hidden">
+            {profile.photo ? (
+              <img src={profile.photo} alt="" className="w-full h-full object-cover" />
+            ) : (
+              initials
+            )}
           </div>
           <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-slate-900" />
         </div>
         <div className="hidden md:flex flex-col text-left pr-1">
           <span className="text-xs font-semibold text-slate-800 dark:text-slate-200 leading-none">
-            Jonathan Müller
+            {profile.name}
           </span>
           <span className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-            Gerente de Projetos
+            {profile.department}
           </span>
         </div>
       </button>
@@ -43,10 +56,10 @@ export const UserAvatar: React.FC = () => {
         <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg py-2 z-50 divide-y divide-slate-100 dark:divide-slate-800">
           <div className="px-4 py-2">
             <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">
-              Jonathan Müller
+              {profile.name}
             </p>
             <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
-              jonathan.muller@grupounico.com
+              {profile.email}
             </p>
             <span className="inline-flex items-center gap-1 mt-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
               <Shield className="w-2.5 h-2.5" /> Administrador
